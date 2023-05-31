@@ -12,8 +12,8 @@ router.post("/", (req, res) => {
 });
 
 router.get("/", (req, res) => {
-  data = [{ name: "name", email: "testemail@g.com" }]
-  // res.json(data);
+  // data = [{ name: "name", email: "testemail@g.com" }]
+  res.json(data);
   res.send(data);
 
   // console.log(res.data);
