@@ -4,23 +4,25 @@ const db_connection = require("../database/connection");
 const collection = db_connection.collection("login");
 
 router.post("/", async (req, res) => {
-  const { username, password } = req.body;
-
+  const { loginUsername, password } = req.body;
+  // console.log("The userName and pass", loginUsername, password);
   try {
-    const user = await collection.findOne({ username });
+    const user = await collection.findOne({ username: loginUsername });
 
     if (!user) {
-      return res.json({ message: "Invalid username or password" });
+      // console.log("Couldn't find the username");
+      return res.send({ message: "Invalid username or password" });
     }
 
     if (user.password !== password) {
-      return res.json({ message: "Invalid username or password" });
+      // console.log("Password is incorrect");
+      return res.send({ message: "Invalid username or password" });
     }
-
-    res.json({ message: "Login successful", user });
+    // console.log("Logged in successfully");
+    res.send({ message: "Login successful" });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "An error occurred" });
+    res.send({ message: "An error occurred" });
   }
 });
 
