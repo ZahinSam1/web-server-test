@@ -16,8 +16,6 @@ const PORT = process.env.PORT || 9000;
 
 const app = express();
 
-app.set("view engine", "jade");
-
 app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
