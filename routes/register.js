@@ -2,9 +2,9 @@ const express = require("express");
 const db_connection = require("../database/connection");
 const collection = db_connection.collection("login");
 const router = express.Router();
-// Handle registration request
-router.post("/", async(req, res) => {
 
+// Handle registration request
+router.post("/", async (req, res) => {
   const { username, password, email } = req.body;
 
   try {
@@ -12,7 +12,7 @@ router.post("/", async(req, res) => {
     const existingUser = await collection.findOne({ username });
 
     if (existingUser) {
-      return res.status(409).json({ message: "Username already exists" });
+      return res.send({ message: "Username already exists" });
     }
 
     // Create a new user document
@@ -24,15 +24,25 @@ router.post("/", async(req, res) => {
 
     await collection.insertOne(newUser);
 
-    res.json({ message: "Registration successful" });
+    res.send({ message: "Registration successful" });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "An error occurred" });
+    // console.error(error);
+    return res.json({ message: "An error occurred" });
   }
 });
 
 router.get("/", (req, res) => {
   res.send("Working register API");
+});
+
+router.delete("/", async (req, res) => {
+  try {
+    await collection.deleteMany({});
+    res.send({ message: "all data deleted successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "An error occurred" });
+  }
 });
 
 module.exports = router;
