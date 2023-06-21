@@ -24,17 +24,16 @@ router.post(
     collectionName = req.params.username;
 
     if (!file) {
-      // console.log(file);
-      return res.status(400).json({ message: "No file uploaded" });
+      return res.send({ message: "No file uploaded" });
     }
 
     try {
       await collection.insertOne({ file: file });
 
-      res.json({ message: "File uploaded successfully" });
+      res.send({ message: "File uploaded successfully" });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "An error occurred" });
+      // console.error(error);
+      res.send({ message: "An error occurred" });
     }
   }
 );
