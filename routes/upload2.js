@@ -9,7 +9,7 @@ const ObjectId = require("mongodb").ObjectId;
 
 const router = express.Router();
 var collectionName;
-var collection = db_connection.collection(`${collectionName}_files`);
+var collection;
 
 router.use(cacheController({ maxAge: 60 }));
 
@@ -22,6 +22,7 @@ router.post(
   async (req, res) => {
     var file = req.files.file;
     collectionName = req.params.username;
+    collection = db_connection.collection(`${collectionName}_files`);
 
     if (!file) {
       return res.send({ message: "No file uploaded" });
@@ -41,6 +42,7 @@ router.post(
 router.get("/data/:username", async (req, res) => {
   try {
     collectionName = req.params.username;
+    collection = db_connection.collection(`${collectionName}_files`);
     res.set("Cache-Control", "public, max-age=60");
     const data = await collection.find().toArray();
     res.json(data);
