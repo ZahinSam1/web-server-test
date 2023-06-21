@@ -10,11 +10,11 @@ router.post("/", async (req, res) => {
     const user = await collection.findOne({ username });
 
     if (!user) {
-      return res.status(401).json({ message: "Invalid username or password" });
+      return res.json({ message: "Invalid username or password" });
     }
 
     if (user.password !== password) {
-      return res.status(401).json({ message: "Invalid username or password" });
+      return res.json({ message: "Invalid username or password" });
     }
 
     res.json({ message: "Login successful", user });

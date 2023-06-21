@@ -8,19 +8,21 @@ const fileSizeLimiter = require("../middleware/fileSizeLimiter");
 const ObjectId = require("mongodb").ObjectId;
 
 const router = express.Router();
-
-const collection = db_connection.collection("test2");
+var collectionName;
+const collection = db_connection.collection(`${collectionName}_files`);
 
 router.use(cacheController({ maxAge: 60 }));
 
 // Handle file upload
 router.post(
-  "/",
+  "/:username",
   fileUploader({ createParentPath: true }),
   // fileSizeLimiter,
   // filesPayloadExists,
   async (req, res) => {
     var file = req.files.file;
+    collentionName = req.params.usename;
+
     if (!file) {
       // console.log(file);
       return res.status(400).json({ message: "No file uploaded" });
